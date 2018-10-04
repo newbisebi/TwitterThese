@@ -1,0 +1,7 @@
+*.sqlite
+*.sqlite-journal
+logs/*
+config/config.py
+.vscode
+.cache
+*/__pycache__
