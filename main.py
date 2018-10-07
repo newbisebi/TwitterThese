@@ -14,7 +14,7 @@ import twitter_accounts
 import twitter_timelines
 import influence
 import processing
-# import tweet_envir
+import tweet_envir
 
 """
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -23,14 +23,14 @@ import processing
 """
 
 # # ETAPE 1 : CREATION DE lA LISTE DES UTILISATEURS 
-twitter_accounts.main()
+# twitter_accounts.main()
 
 # # ETAPE 2 : COLLECTE DES TWEETS DES UTILISATEURS
-twitter_timelines.main(session=session, direction="older")
+# twitter_timelines.main(session=session, direction="older")
 
 # # ETAPE 3 : COLLECTE DES INFORAMTIONS COMPLEMENTAIRES (nombre de RT et favoris)
-for annee in range(2006, 2018):
-    influence.main(annee)
+# for annee in range(2006, 2018):
+#     influence.main(annee)
 
 """
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -39,8 +39,8 @@ for annee in range(2006, 2018):
 """
 
 # # ETAPE4 : RETRAITEMENT DU TEXTE
-# processing.main() #lemmatisation etc.
-# tweet_envir.main() #Détermination du caractère environnemental
+processing.main() #lemmatisation etc.
+tweet_envir.main() #Détermination du caractère environnemental
 
 
 """

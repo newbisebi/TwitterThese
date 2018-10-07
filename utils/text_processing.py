@@ -22,6 +22,8 @@ def processing(text, return_token = False):
     for p in punctuation:
         new_text = new_text.replace(p, "")
     new_text = new_text.replace("  "," ").replace("  "," ").lower()
+    if new_text == "" or new_text is None:
+        new_text = "empty-tweet"
 
     if return_token:
         new_text = word_tokenize(new_text)

@@ -14,8 +14,8 @@ logger.setLevel(logging.DEBUG) # Premier niveau de filtre
 file_handler = RotatingFileHandler(
     'logs/activity',
     mode="a",
-    maxBytes=1000000,
-    backupCount=1,
+    maxBytes=5000000,
+    backupCount=10,
     encoding="utf-8")
 file_handler.setLevel(logging.DEBUG) #deuxième niveau de filtre au moment de l'écriture dans le fichier
 file_handler.setFormatter(formatter)

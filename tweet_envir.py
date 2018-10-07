@@ -28,7 +28,7 @@ def envir_criteria_2(hashtags):
     criteria = False
     with open("inputs/hashtags_envir") as f:
         for ht in f.readlines():
-            if ht in hashtags.split(', '):
+            if ht in hashtags.lower().split(', '):
                 criteria = True
                 break
     return criteria
@@ -41,8 +41,10 @@ def main():
         for tweet in tweets_to_process.all()[0:1000]:
             tweet.envir1 = envir_criteria_1(tweet.texte)
             tweet.envir2 = envir_criteria_2(tweet.hashtags)
-            tweet.envir3 = tweet.envir1 + tweet.envir2
+            tweet.envir3 = bool(tweet.envir1 + tweet.envir2 )
+        
         session.commit()
+        lg.info("Committing environmental character to db")
         session.close()
         tweets_to_process = session.query(TL).filter(TL.envir3 == None)
 
