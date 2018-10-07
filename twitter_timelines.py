@@ -154,7 +154,7 @@ def main(session=session, direction="older"):
     PARAM direction : "older" or "newer". Whether the program looks for older or newer 
     tweets than those already stored in the database
     """
-    unfinished_accounts = session.query(COMPTES.fini).all()
+    unfinished_accounts = session.query(COMPTES).filter(COMPTES.fini == 1).all()
     while unfinished_accounts:
         liste_ut = liste_utilisateur(session) #On constitue la liste des utilisateurs prioritaires
         for ut in liste_ut:
@@ -171,6 +171,7 @@ def main(session=session, direction="older"):
                     if not res:
                         user = session.query(COMPTES).filter_by(id_utilisateur = user_id).one()
                         user.fini = True
+                        lg.info(f"History completed for user : {user.nom_utilisateur}")
                         session.commit()
                     else:
                         saving_tweets_to_db(res, user_id, session)

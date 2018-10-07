@@ -40,7 +40,7 @@ def api_query(liste_id):
 def main(annee, session=session):
     tweets_to_process = session.query(TL).filter(TL.nb_rt==None, TL.annee==annee)
     while tweets_to_process.count() > 0:
-        lg.info(f"Searching influence. Tweets remaining : {tweets_to_process.count()}")
+        lg.info(f"Searching influence (year = {annee}). Tweets remaining : {tweets_to_process.count()}")
         tweet_list = tweets_to_process.all()[0:100]
         ids = [tweet.tweet_id for tweet in tweet_list]
         results = api_query(ids)
