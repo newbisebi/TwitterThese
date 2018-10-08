@@ -39,14 +39,18 @@ def mini(session):
     nb_rech = session.query(COMPTES.nombre_recherches).all()
     return min([el[0] for el in nb_rech])
 
-def liste_utilisateur(session):
+def make_query_list(session, direction="older"):
     """
     Constitue la liste des utilisateurs dont on veut collecter les tweets en priorité
     """
     min_rech = mini(session)
 
-    liste_ut = session.query(COMPTES.id_utilisateur, COMPTES.nombre_recherches, COMPTES.nom_utilisateur).all()
-    liste_ut = [(el[0], el[2]) for el in liste_ut if el[1]==min_rech]
+    users = session.query(COMPTES.id_utilisateur, COMPTES.nombre_recherches, COMPTES.nom_utilisateur)
+    
+    if direction == "older":
+        users = users.filter(COMPTES.fini==False)
+    lg.info(f"Number of users in list : {users.count()}")
+    liste_ut = [user.id_utilisateur for user in users.all() if user.nombre_recherches==min_rech]
     return liste_ut
 
 def twitter_query(user_id, since_id, max_id):
@@ -154,27 +158,19 @@ def main(session=session, direction="older"):
     PARAM direction : "older" or "newer". Whether the program looks for older or newer 
     tweets than those already stored in the database
     """
-    unfinished_accounts = session.query(COMPTES).filter(COMPTES.fini == 1).all()
-    while unfinished_accounts:
-        liste_ut = liste_utilisateur(session) #On constitue la liste des utilisateurs prioritaires
-        for ut in liste_ut:
-            user_id = ut[0]
-            user_name = ut[1]
+    liste_ut = make_query_list(session, direction) #On constitue la liste des utilisateurs à traiter
+    while liste_ut:
+        for user_id in liste_ut:
 
             if direction == "older": #CASE 1 : looking for older tweets
                 user = session.query(COMPTES).filter_by(id_utilisateur = user_id).one()
-                #Checking if full history already stored in database
-                if user.fini == True and direction == "oldest":
-                    lg.info(f"Timeline intégralement récupérée pour l'utilisateur {user_name} - id : {user_id}")
+                res = collect_older_tweets(session, user_id)
+                if not res:
+                    user.fini = True
+                    lg.info(f"History completed for user : {user.nom_utilisateur}")
+                    session.commit()
                 else:
-                    res = collect_older_tweets(session, user_id)
-                    if not res:
-                        user = session.query(COMPTES).filter_by(id_utilisateur = user_id).one()
-                        user.fini = True
-                        lg.info(f"History completed for user : {user.nom_utilisateur}")
-                        session.commit()
-                    else:
-                        saving_tweets_to_db(res, user_id, session)
+                    saving_tweets_to_db(res, user_id, session)
                 
             elif direction == "newer": #CASE 2 : looking for newer tweets
                 res = collect_newer_tweets(session, user_id)
@@ -184,6 +180,7 @@ def main(session=session, direction="older"):
                 lg.warning("direction parameter in main function must be equal to 'older' or 'newer'")
             
             increment_query_count(session, user_id)
+        liste_ut = make_query_list(session, direction)
 
 if __name__ == '__main__':
     main(session, direction="older")

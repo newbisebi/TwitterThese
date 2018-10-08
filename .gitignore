@@ -5,3 +5,4 @@ config/config.py
 .vscode
 .cache
 */__pycache__
+__pycache__/

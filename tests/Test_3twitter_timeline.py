@@ -63,4 +63,4 @@ def test_liste_utilisateur():
         else:
             user.nombre_recherches = 0
 
-    assert len(twitter_timelines.liste_utilisateur(session)) == 3
+    assert len(twitter_timelines.make_query_list(session)) == 3
