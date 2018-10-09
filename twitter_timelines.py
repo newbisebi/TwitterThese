@@ -32,25 +32,28 @@ def longueur(session):
     """
     return session.query(TL).count()
 
-def mini(session):
-    """
-    Détermine les utilisateurs sur lequel le moins de recherches ont été faites afin de les prioriser
-    """
-    nb_rech = session.query(COMPTES.nombre_recherches).all()
-    return min([el[0] for el in nb_rech])
+# def mini(session, direction):
+#     """
+#     Détermine les utilisateurs sur lequel le moins de recherches ont été faites afin de les prioriser
+#     """
+#     nb_rech = session.query(COMPTES.nombre_recherches)
+#     if direction=="older":
+#         nb_rech = nb_rech.filter(COMPTES.fini==False)
+    
+#     return min([el[0] for el in nb_rech.all()])
 
-def make_query_list(session, direction="older"):
+def make_query_list(session, direction):
     """
     Constitue la liste des utilisateurs dont on veut collecter les tweets en priorité
     """
-    min_rech = mini(session)
+    # min_rech = mini(session, direction)
 
     users = session.query(COMPTES.id_utilisateur, COMPTES.nombre_recherches, COMPTES.nom_utilisateur)
     
     if direction == "older":
         users = users.filter(COMPTES.fini==False)
     lg.info(f"Number of users in list : {users.count()}")
-    liste_ut = [user.id_utilisateur for user in users.all() if user.nombre_recherches==min_rech]
+    liste_ut = [user.id_utilisateur for user in users.all()] # if user.nombre_recherches==min_rech]
     return liste_ut
 
 def twitter_query(user_id, since_id, max_id):
@@ -63,13 +66,13 @@ def twitter_query(user_id, since_id, max_id):
                             max_id = max_id,
                             since_id = since_id,
                             count = 200,
-                            lang = 'fr'
+                            lang = 'fr',
+                            tweet_mode="extended"
                             )
-        lg.info(f"Nombre de tweets récupérés : {len(res)}")
+        lg.info(f"Number of tweets in response : {len(res)}")
+        return res
     except TwythonError as e:
-        lg.warning(f"Programme interrompu : {e}")
-        res= []
-    return res
+        lg.warning(f"Program interupted : {e}")
 
 
 def get_oldest_and_newest_tweet(session, user_id):
@@ -116,9 +119,10 @@ def saving_tweets_to_db(res, user_id, session):
             # date1 = date.strftime('%Y-%m-%d')
             mois = date.strftime('%m')
             annee = date.strftime('%Y')
-            texte = tw["text"]
+            texte = tw["full_text"]
             retweet = tw["retweeted"]
             hashtags = tw["entities"]["hashtags"]
+            json = str(tw)
             if hashtags:
                 hashtags = ', '.join([el['text'] for el in hashtags])
             else :
@@ -138,7 +142,7 @@ def saving_tweets_to_db(res, user_id, session):
             #Intégration des données collectées à la base SQLITE :
             tweet_exists_in_db = session.query(TL).filter_by(tweet_id = tweet_id).all()
             if not tweet_exists_in_db:
-                enr_tl = TL(tweet_id, auteur, auteur_id, date, mois, annee, texte, retweet, hashtags, mentions, dest)
+                enr_tl = TL(tweet_id, auteur, auteur_id, date, mois, annee, texte, retweet, hashtags, mentions, dest, json)
                 session.add(enr_tl)
 
         session.commit()
@@ -161,14 +165,17 @@ def main(session=session, direction="older"):
     liste_ut = make_query_list(session, direction) #On constitue la liste des utilisateurs à traiter
     while liste_ut:
         for user_id in liste_ut:
-
+            print("\n")
             if direction == "older": #CASE 1 : looking for older tweets
                 user = session.query(COMPTES).filter_by(id_utilisateur = user_id).one()
+
                 res = collect_older_tweets(session, user_id)
-                if not res:
+                if res == []:
                     user.fini = True
                     lg.info(f"History completed for user : {user.nom_utilisateur}")
                     session.commit()
+                elif res is None:
+                    pass
                 else:
                     saving_tweets_to_db(res, user_id, session)
                 

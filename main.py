@@ -28,9 +28,9 @@ import tweet_envir
 # ETAPE 2 : COLLECTE DES TWEETS DES UTILISATEURS
 twitter_timelines.main(session=session, direction="older")
 
-# # ETAPE 3 : COLLECTE DES INFORAMTIONS COMPLEMENTAIRES (nombre de RT et favoris)
-# for annee in range(2006, 2018):
-#     influence.main(annee)
+# ETAPE 3 : COLLECTE DES INFORAMTIONS COMPLEMENTAIRES (nombre de RT et favoris)
+for annee in range(2006, 2018):
+    influence.main(annee)
 
 """
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

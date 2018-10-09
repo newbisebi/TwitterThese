@@ -75,9 +75,10 @@ class TL(Base):
     envir3 = Column(Boolean)
     mentions = Column(String)
     dest = Column(String)
+    json = Column(String)
 
 
-    def __init__(self, tweet_id, auteur, auteur_id, date, mois, annee, texte, rt, hashtags, mentions, dest):
+    def __init__(self, tweet_id, auteur, auteur_id, date, mois, annee, texte, rt, hashtags, mentions, dest, json):
         self.tweet_id = tweet_id
         self.auteur = auteur
         self.auteur_id = auteur_id
@@ -97,6 +98,7 @@ class TL(Base):
         self.envir3 = None
         self.mentions = mentions
         self.dest = dest
+        self.json=json
 
 
 class AMIS(Base):
