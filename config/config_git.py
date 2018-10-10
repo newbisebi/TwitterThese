@@ -14,3 +14,5 @@ API = Twython(app_key='XXXX',
 FICHIER_BDD = 'sqlite:///data.sqlite'
 
 FICHIER_BDD_TEST = 'sqlite:///data_test.sqlite'
+
+TARGET_ACCOUNT = ""

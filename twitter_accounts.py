@@ -3,23 +3,18 @@
 Date de création : 14/06/2017 par Sébastien Mariaux
 Mise à jour : 03/10/2018 - Python3 par Sébastien Mariaux
 
-Ce script a pour but de constituer une liste de compte Twitter d'organisations
-de l'ESS, à partir d'un compte de référence.
+Ce script a pour but de constituer une liste de compte Twitter à partir d'un compte de référence.
 
-Tous les comptes "suivis" par ce compte de référence (abonnements) sont des comptes d'organisation
-ou d'acteurs de l'ESS.
+Tous les comptes "suivis" par ce compte de référence (abonnements) sont intégrés à la base de donnée
 
-Le script permet de récupérer les informations de ces comptes et de les stocker dans
-une base SQLITE.
-
-Le compte Twitter de référence est le compte "@RechercheESS"
+Le compte Twitter de référence est défini dans le fichier config
 """
 
 #Import des modules
 import time
 from twython import Twython, TwythonError #interface avec Twitter
 from datetime import datetime, date
-from config.config import API
+from config.config import API, TARGET_ACCOUNT
 from utils.models import session, COMPTES
 from utils.mylog import logger as lg
 
@@ -37,7 +32,7 @@ def api_request(reference_account):
     followed_accounts = []
     while curseur !=0:
         try:
-            res = API.get_friends_list(screen_name =  reference_account, # "RechercheESS"
+            res = API.get_friends_list(screen_name =  reference_account, 
                                         count = 200,
                                         cursor = curseur)
             for user in res["users"]:
@@ -86,11 +81,11 @@ def write_account_to_db(user, session):
         session.commit()
         session.close()
 
-def main(session=session):
+def main(session=session, account=TARGET_ACCOUNT): 
     """
     session passed as parameter in order to be able to test on another database
     """
-    followed_accounts = api_request("RechercheESS")
+    followed_accounts = api_request(TARGET_ACCOUNT)
     if followed_accounts:
         lg.info("Recording user to db")
         for account in followed_accounts:
@@ -98,5 +93,5 @@ def main(session=session):
         lg.info("All users saved to db")
     
 if __name__ == "__main__":
-    main()
+    main(session, TARGET_ACCOUNT)
 
