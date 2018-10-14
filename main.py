@@ -10,7 +10,7 @@ Regroupe les différentes opérations effectués dans le cadre de l'étude
 - Retraitement du texte
 """
 from utils.models import session
-import twitter_accounts
+import twitter_accounts # noqa
 import twitter_timelines
 import influence
 import processing
@@ -22,7 +22,7 @@ import tweet_envir
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 """
 
-# # ETAPE 1 : CREATION DE lA LISTE DES UTILISATEURS 
+# # ETAPE 1 : CREATION DE lA LISTE DES UTILISATEURS
 # twitter_accounts.main()
 
 # ETAPE 2 : COLLECTE DES TWEETS DES UTILISATEURS
@@ -39,8 +39,8 @@ for annee in range(2006, 2018):
 """
 
 # # ETAPE4 : RETRAITEMENT DU TEXTE
-processing.main() #lemmatisation etc.
-tweet_envir.main() #Détermination du caractère environnemental
+processing.main()   # lemmatisation etc.
+tweet_envir.main()  # Détermination du caractère environnemental
 
 
 """
@@ -48,4 +48,3 @@ tweet_envir.main() #Détermination du caractère environnemental
 >>>>>>>>>>>>>>>>> ANALYSE DES DONNEES<<<<<<<<<<<<<<<<<<<<<<<<
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 """
-

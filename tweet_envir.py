@@ -7,13 +7,10 @@ Ce script a pour but de déterminer si un tweet concerne l'environnement
 
 """
 
-#Import des modules
-import time
-import pandas as pd
-from datetime import datetime, date
+# Import des modules
 from utils.models import session, TL
 from utils.mylog import logger as lg
-from utils.text_processing import processing
+
 
 def envir_criteria_1(texte):
     criteria = False
@@ -35,18 +32,21 @@ def envir_criteria_2(hashtags):
 
 
 def main():
-    tweets_to_process = session.query(TL).filter(TL.envir3 == None)
+    tweets_to_process = session.query(TL).filter(TL.envir3 == None) # noqa
     while tweets_to_process.count() > 0:
-        lg.info(f"Environmental character determination : {tweets_to_process.count()} tweets remaining")
+        lg.info(
+            f"""Environmental character determination :
+            {tweets_to_process.count()} tweets remaining""")
         for tweet in tweets_to_process.all()[0:1000]:
             tweet.envir1 = envir_criteria_1(tweet.texte)
             tweet.envir2 = envir_criteria_2(tweet.hashtags)
-            tweet.envir3 = bool(tweet.envir1 + tweet.envir2 )
-        
+            tweet.envir3 = bool(tweet.envir1 + tweet.envir2)
+
         session.commit()
         lg.info("Committing environmental character to db")
         session.close()
-        tweets_to_process = session.query(TL).filter(TL.envir3 == None)
+        tweets_to_process = session.query(TL).filter(TL.envir3 == None)    # noqa
+
 
 if __name__ == '__main__':
     main()

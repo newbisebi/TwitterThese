@@ -3,7 +3,7 @@
 Date de création : 26/06/2017 par Sébastien Mariaux
 Mise à jour : 04/10/2018 par Sébastien Mariaux
 
-Constitue un réseau d'organisations de l'ESS en collectant les abonnements
+Constitue un réseau d'utilisateurs en collectant les abonnements
 de chacun des utilisateurs du panel
 
 """
