@@ -17,7 +17,6 @@ de requête est faite pour chaque utilisateur.
 
 # Import des modules
 import time
-from datetime import datetime
 from twython import TwythonError    # interface avec Twitter
 from utils.models import session, COMPTES, TL
 from config.config import API
@@ -115,42 +114,14 @@ def saving_tweets_to_db(res, user_id, session):
     for tw in res:
         tweet_id = tw["id"]
         auteur = tw["user"]["screen_name"]
-        auteur_id = tw["user"]["id"]
-        date = tw["created_at"]
-        date = datetime.strptime(date, '%a %b %d %H:%M:%S +0000 %Y')
-        # date1 = date.strftime('%Y-%m-%d')
-        mois = date.strftime('%m')
-        annee = date.strftime('%Y')
-        texte = tw["full_text"]
-        retweet = tw["retweeted"]
-        hashtags = tw["entities"]["hashtags"]
-        json = str(tw)
-        if hashtags:
-            hashtags = ', '.join([el['text'] for el in hashtags])
-        else:
-            hashtags = ""
-        mentions = tw["entities"]["user_mentions"]
-        if mentions:
-            mentions = ','.join(
-                [f"{el['screen_name']} ({el['id']})" for el in mentions]
-                )
-        else:
-            mentions = ""
-        id_dest = tw["in_reply_to_user_id"]
-        nom_dest = tw["in_reply_to_screen_name"]
-        if id_dest:
-            dest = f"{nom_dest} ({id_dest})"
-        else:
-            dest = ""
 
         # Intégration des données collectées à la base SQLITE :
         tweet_exists_in_db = (
             session.query(TL).filter_by(tweet_id=tweet_id).all())
         if not tweet_exists_in_db:
-            enr_tl = TL(
-                tweet_id, auteur, auteur_id, date, mois, annee,
-                texte, retweet, hashtags, mentions, dest, json)
+            enr_tl = TL(tw)
             session.add(enr_tl)
+            lg.info(f"Tweet {tweet_id} added to session")
 
     session.commit()
     session.close()

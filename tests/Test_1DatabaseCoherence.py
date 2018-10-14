@@ -1,3 +1,8 @@
+"""
+# TODO
+A supprimer car ne teste pas le programme mais les données
+==> intégrer dans un script séparé des tests
+"""
 from utils.models import session, TL
 
 

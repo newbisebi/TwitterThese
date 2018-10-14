@@ -59,36 +59,22 @@ def write_account_to_db(user, session):
     returns none
     """
     nom_utilisateur = user["screen_name"]
-    description = user["description"]
     id_utilisateur = user["id"]
-    nb_abonnements = user["friends_count"]
-    nb_abonnes = user["followers_count"]
-    nb_tweets = user["statuses_count"]
 
     # Enregistrement dans la base (si pas déjà existant) :
     user_exists = (
         session.query(COMPTES).filter_by(id_utilisateur=id_utilisateur))
     if not user_exists.all():   # Si non existant on le créé
-        account = COMPTES(
-            nom_utilisateur=nom_utilisateur,
-            description=description,
-            nb_abonnements=nb_abonnements,
-            nb_abonnes=nb_abonnes,
-            nb_tweets=nb_tweets,
-            id_utilisateur=id_utilisateur)
+        account = COMPTES(user)
         session.add(account)
         lg.info(f"committing user {nom_utilisateur} to db")
         session.commit()
 
     else:  # Si existant on met à jour les infos
-        user = user_exists.one()
-        user.nb_abonnements = nb_abonnements
-        user.nb_abonnes = nb_abonnes
-        user.nb_tweets = nb_tweets
-        user.date_maj = time.strftime('%Y/%m/%d', time.localtime())
-        user.description = description
+        compte = user_exists.one()
+        compte.update_compte(user)
         session.commit()
-        session.close()
+    session.close()
 
 
 def main(session=session, account=TARGET_ACCOUNT):

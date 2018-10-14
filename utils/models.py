@@ -3,15 +3,12 @@
 Format des tables utilisées dans la base de données
 """
 
-import sqlalchemy #Interface sqlite
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime, Float, Boolean
-from sqlalchemy.orm import mapper, sessionmaker
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime, Float, Boolean
-from sqlalchemy.orm import mapper, sessionmaker
+from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy.orm import sessionmaker
 import time
+from datetime import datetime
 from config.config import FICHIER_BDD
 
 Base = declarative_base()
@@ -24,31 +21,52 @@ class COMPTES(Base):
     """
     __tablename__ = 'Comptes_ESS'
     rowid = Column(Integer, primary_key=True)
-    nom_utilisateur = Column(String) #Nom du compte twitter (sans le @)
-    id_utilisateur = Column(Integer)#Identifiant du compte
-    description = Column(String) #Présentation de l'utilisateur
-    nb_abonnements = Column(Integer) #Nombre de comptes suivis
-    nb_abonnes = Column(Integer) #nombre de followers
-    nb_tweets = Column(Integer) #Nombre de tweets total (<>nombre collectés)
-    type_compte = Column(String) #type d'organisation ou d'invididu --> codage manuel
-    compte_envir = Column(Boolean) #Orga ayant rôle environnemental --> codage manuel
-    date_maj = Column(String) #Date de mise à jour auto des infos
-    nombre_recherches = Column(Integer) #Colonne à des fins techinques : Nombre de fois ou la TL de ce compte est collectée
-    fini = Column(Boolean) #Colonne à des fins techinques : Vrai si collecte terminée (=plus anciens tweets collectés)
+    # Nom du compte twitter (sans le @)
+    nom_utilisateur = Column(String)
+    # Identifiant du compte
+    id_utilisateur = Column(Integer)
+    # Présentation de l'utilisateur
+    description = Column(String)
+    # Nombre de comptes suivis
+    nb_abonnements = Column(Integer)
+    # nombre de followers
+    nb_abonnes = Column(Integer)
+    # Nombre de tweets total (<>nombre collectés)
+    nb_tweets = Column(Integer)
+    # type d'organisation ou d'invididu --> codage manuel
+    type_compte = Column(String)
+    # Orga ayant rôle environnemental --> codage manuel
+    compte_envir = Column(Boolean)
+    # Date de mise à jour auto des infos
+    date_maj = Column(String)
+    # Colonne à des fins techinques :
+    # Nombre de fois ou la TL de ce compte est collectée
+    nombre_recherches = Column(Integer)
+    # Colonne à des fins techinques :
+    # Vrai si collecte terminée (=plus anciens tweets collectés)
+    fini = Column(Boolean)
 
-    def __init__(self,nom_utilisateur, id_utilisateur, description, nb_abonnements, nb_abonnes, nb_tweets):
-        self.nom_utilisateur = nom_utilisateur
-        self.id_utilisateur = id_utilisateur
-        self.description = description
-        self.nb_abonnements = nb_abonnements
-        self.nb_abonnes = nb_abonnes
-        self.nb_tweets = nb_tweets
-        self.date_maj = time.strftime('%Y/%m/%d',time.localtime())
+    def __init__(self, user):
+        self.nom_utilisateur = user["screen_name"]
+        self.description = user["description"]
+        self.id_utilisateur = user["id"]
+        self.nb_abonnements = user["friends_count"]
+        self.nb_abonnes = user["followers_count"]
+        self.nb_tweets = user["statuses_count"]
+        self.date_maj = time.strftime('%Y/%m/%d', time.localtime())
         self.nombre_recherches = 0
         self.fini = False
 
+    def update_compte(self, user):
+        self.nb_abonnements = user["friends_count"]
+        self.nb_abonnes = user["followers_count"]
+        self.nb_tweets = user["statuses_count"]
+        self.date_maj = time.strftime('%Y/%m/%d', time.localtime())
+        self.description = user["description"]
+
     def __repr__(self):
         return self.nom_utilisateur
+
 
 class TL(Base):
     """
@@ -64,7 +82,7 @@ class TL(Base):
     annee = Column(String)
     texte = Column(String)
     texte_retraite = Column(String)
-    retweet = Column(Boolean) #On n'a pas collecté les RT
+    retweet = Column(Boolean)
     hashtags = Column(String)
     active = Column(Boolean)
     nb_rt = Column(Integer)
@@ -77,28 +95,39 @@ class TL(Base):
     dest = Column(String)
     json = Column(String)
 
-
-    def __init__(self, tweet_id, auteur, auteur_id, date, mois, annee, texte, rt, hashtags, mentions, dest, json):
-        self.tweet_id = tweet_id
-        self.auteur = auteur
-        self.auteur_id = auteur_id
+    def __init__(self, status):
+        self.tweet_id = status["id"]
+        self.auteur = status["user"]["screen_name"]
+        self.auteur_id = status["user"]["id"]
+        date = status["created_at"]
+        date = datetime.strptime(date, '%a %b %d %H:%M:%S +0000 %Y')
+        # date1 = date.strftime('%Y-%m-%d')
+        self.mois = date.strftime('%m')
+        self.annee = date.strftime('%Y')
         self.date = date
-        self.mois = mois
-        self.annee = annee
-        self.texte = texte
+        self.texte = status["full_text"]
         self.texte_retraite = ""
-        self.retweet=rt
-        self.hashtags = hashtags
+        self.retweet = status["retweeted"]
+        self.json = str(status)
         self.active = True
-        self.nb_favori = None
-        self.nb_rt = None
-        self.date_influence = None
-        self.envir1 = None
-        self.envir2 = None
-        self.envir3 = None
-        self.mentions = mentions
-        self.dest = dest
-        self.json=json
+        hashtags = status["entities"]["hashtags"]
+        if hashtags:
+            self.hashtags = ', '.join([el['text'] for el in hashtags])
+        else:
+            self.hashtags = ""
+        mentions = status["entities"]["user_mentions"]
+        if mentions:
+            self.mentions = ','.join(
+                [f"{el['screen_name']} ({el['id']})" for el in mentions]
+                )
+        else:
+            self.mentions = ""
+        id_dest = status["in_reply_to_user_id"]
+        nom_dest = status["in_reply_to_screen_name"]
+        if id_dest:
+            self.dest = f"{nom_dest} ({id_dest})"
+        else:
+            self.dest = ""
 
 
 class AMIS(Base):
@@ -107,8 +136,8 @@ class AMIS(Base):
     """
     __tablename__ = 'amis'
     rowid = Column(Integer, primary_key=True)
-    nom_utilisateur = Column(String) #Nom du compte twitter (sans le @)
-    id_utilisateur = Column(Integer)#Identifiant du compte
+    nom_utilisateur = Column(String)    # Nom du compte twitter 
+    id_utilisateur = Column(Integer)    # Identifiant du compte
     id_ami = Column(Integer)
     nom_ami = Column(String)
 
@@ -121,21 +150,8 @@ class AMIS(Base):
     def __repr__(self):
         return self.nom_utilisateur
 
-class MODUL(Base):
-    """
-    Format de la table dans laquelle vont être stockés les utilisateurs suivis
-    """
-    __tablename__ = 'Modularite'
-    rowid = Column(Integer, primary_key=True)
-    auteur = Column(String)
-    classe = Column(String)
 
-
-    def __repr__(self):
-        return self.auteur, self.classe
-
-
-#CONNECTION ET CREATION DES TABLES
+# CONNECTION ET CREATION DES TABLES
 engine = sqlalchemy.create_engine(FICHIER_BDD, echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
