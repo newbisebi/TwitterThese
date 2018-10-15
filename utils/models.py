@@ -136,7 +136,7 @@ class AMIS(Base):
     """
     __tablename__ = 'amis'
     rowid = Column(Integer, primary_key=True)
-    nom_utilisateur = Column(String)    # Nom du compte twitter 
+    nom_utilisateur = Column(String)    # Nom du compte twitter
     id_utilisateur = Column(Integer)    # Identifiant du compte
     id_ami = Column(Integer)
     nom_ami = Column(String)

@@ -1,15 +1,14 @@
 
-####### RENAME FILE "config.py" ###########
-
-
+# ###### RENAME FILE "config.py" ###########
 
 from twython import Twython
 
-#FILL WITH YOUR TWITTER AUTH DETAILS
-API = Twython(app_key='XXXX',
-                     app_secret='XXXX',
-                     oauth_token='XXXX',
-                     oauth_token_secret='XXXX')
+# FILL WITH YOUR TWITTER AUTH DETAILS
+API = Twython(
+    app_key='XXXX',
+    app_secret='XXXX',
+    oauth_token='XXXX',
+    oauth_token_secret='XXXX')
 
 FICHIER_BDD = 'sqlite:///data.sqlite'
 

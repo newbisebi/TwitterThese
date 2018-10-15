@@ -23,6 +23,8 @@ def main():
     tweets_to_process = session.query(TL).filter(TL.texte_retraite == "")
     lg.info(f"Tweet to process : {tweets_to_process.count()}")
     while tweets_to_process.count() > 0:
+        lg.info(
+                f"Tweet remaining to process : {tweets_to_process.count()}")
         for tweet in tweets_to_process.all()[0:1000]:
             tweet.texte_retraite = processing(tweet.texte)
         session.commit()

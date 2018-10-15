@@ -112,17 +112,10 @@ def collect_older_tweets(session, user_id):
 
 def saving_tweets_to_db(res, user_id, session):
     for tw in res:
-        tweet_id = tw["id"]
         auteur = tw["user"]["screen_name"]
 
-        # Intégration des données collectées à la base SQLITE :
-        tweet_exists_in_db = (
-            session.query(TL).filter_by(tweet_id=tweet_id).all())
-        if not tweet_exists_in_db:
-            enr_tl = TL(tw)
-            session.add(enr_tl)
-            lg.info(f"Tweet {tweet_id} added to session")
-
+        enr_tl = TL(tw)
+        session.add(enr_tl)
     session.commit()
     session.close()
     lg.info(f"Tweets for user {auteur} - {user_id} committed to database")

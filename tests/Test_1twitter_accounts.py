@@ -9,8 +9,8 @@ import os
 
 
 # Connection à la BDD de test
-if os.path.exists("data_test.sqlite"):
-    os.remove("data_test.sqlite")
+if os.path.exists("data/data_test.sqlite"):
+    os.remove("data/data_test.sqlite")
 engine = sqlalchemy.create_engine(FICHIER_BDD_TEST, echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
