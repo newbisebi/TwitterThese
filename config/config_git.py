@@ -10,7 +10,9 @@ API = Twython(
     oauth_token='XXXX',
     oauth_token_secret='XXXX')
 
-FICHIER_BDD = 'sqlite:///data.sqlite'
+BDD_DIR = 'data/'
+BDD_FILE = 'data.sqlite'
+FICHIER_BDD = 'sqlite:///' + BDD_DIR + BDD_FILE
 
 FICHIER_BDD_TEST = 'sqlite:///data_test.sqlite'
 

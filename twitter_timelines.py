@@ -110,12 +110,24 @@ def collect_older_tweets(session, user_id):
     return res
 
 
-def saving_tweets_to_db(res, user_id, session):
+def saving_tweets_to_db(res, user_id, session, test_double=True):
+    """
+    Store tweet to database.
+    test_double ==> test if tweet already in db. Takes longer, but safer...
+    """
     for tw in res:
         auteur = tw["user"]["screen_name"]
-
-        enr_tl = TL(tw)
-        session.add(enr_tl)
+        if test_double:
+            tweet_exists = (
+                session.query(TL)
+                .filter(TL.tweet_id == tw['id'])
+                .first())
+            if not tweet_exists:
+                enr_tl = TL(tw)
+                session.add(enr_tl)
+        else:
+            enr_tl = TL(tw)
+            session.add(enr_tl)
     session.commit()
     session.close()
     lg.info(f"Tweets for user {auteur} - {user_id} committed to database")
@@ -154,12 +166,12 @@ def main(session=session, direction="older"):
                 elif res is None:
                     pass
                 else:
-                    saving_tweets_to_db(res, user_id, session)
+                    saving_tweets_to_db(res, user_id, session, False)
 
             elif direction == "newer":
                 # CASE 2 : looking for newer tweets
                 res = collect_newer_tweets(session, user_id)
-                saving_tweets_to_db(res, user_id, session)
+                saving_tweets_to_db(res, user_id, session, True)
 
             else:
                 lg.warning(
