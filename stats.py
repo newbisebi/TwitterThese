@@ -1,13 +1,12 @@
 import os
 from utils.models import session, USER, TWEET
 from config.config import BDD_DIR, BDD_FILE
-from sqlalchemy.orm import lazyload
+from utils.decorateurs import timeur
 
 
+@timeur
 def print_stats():
-    nb_tweets = len(
-        session.query(TWEET.tweet_id).all()
-        )
+    nb_tweets = session.query(TWEET).count()
     nb_comptes = (session.query(USER).count())
 
     print(f"Nombre de tweets : {nb_tweets}")
@@ -34,6 +33,4 @@ def print_bdd_size():
 
 if __name__ == '__main__':
     print_bdd_size()
-    # print_stats()
-
-    print(session.query(TWEET.tweet_id).options(lazyload('*')).count())
+    print_stats()
