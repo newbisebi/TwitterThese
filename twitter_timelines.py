@@ -18,7 +18,7 @@ de requête est faite pour chaque utilisateur.
 # Import des modules
 import time
 from twython import TwythonError    # interface avec Twitter
-from utils.models import session, COMPTES, TL
+from utils.models import session, USER, TWEET
 from config.config import API
 from utils.mylog import logger as lg
 
@@ -30,7 +30,7 @@ def longueur(session):
     """
     Calcule le nombre de tweets (enregistrements) contenus dans la BDD
     """
-    return session.query(TL).count()
+    return session.query(TWEET).count()
 
 
 def make_query_list(session, direction):
@@ -39,14 +39,14 @@ def make_query_list(session, direction):
     les tweets en priorité
     """
     users = session.query(
-        COMPTES.id_utilisateur,
-        COMPTES.nombre_recherches,
-        COMPTES.nom_utilisateur)
+        USER.user_id,
+        USER.queries,
+        USER.user_name)
 
     if direction == "older":
-        users = users.filter(COMPTES.fini == False) # noqa
+        users = users.filter(USER.is_completed == False) # noqa
     lg.info(f"Number of users in list : {users.count()}")
-    liste_ut = [user.id_utilisateur for user in users.all()]
+    liste_ut = [user.user_id for user in users.all()]
     return liste_ut
 
 
@@ -75,7 +75,7 @@ def get_oldest_and_newest_tweet(session, user_id):
     Returns the oldest and newest tweet already in database
     for a given user based on the tweet_id
     """
-    liste_id = session.query(TL.tweet_id).filter_by(auteur_id=user_id).all()
+    liste_id = session.query(TWEET.tweet_id).filter_by(user_id=user_id).all()
     if liste_id:
         oldest_tweet = min([el[0] for el in liste_id])-1
         newest_tweet = max([el[0] for el in liste_id])+1
@@ -119,14 +119,14 @@ def saving_tweets_to_db(res, user_id, session, test_double=True):
         auteur = tw["user"]["screen_name"]
         if test_double:
             tweet_exists = (
-                session.query(TL)
-                .filter(TL.tweet_id == tw['id'])
+                session.query(TWEET)
+                .filter(TWEET.tweet_id == tw['id'])
                 .first())
             if not tweet_exists:
-                enr_tl = TL(tw)
+                enr_tl = TWEET(tw)
                 session.add(enr_tl)
         else:
-            enr_tl = TL(tw)
+            enr_tl = TWEET(tw)
             session.add(enr_tl)
     session.commit()
     session.close()
@@ -135,7 +135,7 @@ def saving_tweets_to_db(res, user_id, session, test_double=True):
 
 def increment_query_count(session, user_id):
         # On ajoute 1 au nombre de recherches faites pour cet utilisateur :
-        ut = session.query(COMPTES).filter_by(id_utilisateur=user_id).one()
+        ut = session.query(USER).filter_by(user_id=user_id).one()
         ut.nombre_recherches += 1
         session.commit()
         lg.info(f"Query count incremented for user {user_id}")
@@ -153,7 +153,7 @@ def main(session=session, direction="older"):
             print("\n")
             if direction == "older":    # CASE 1 : looking for older tweets
                 user = (
-                    session.query(COMPTES)
+                    session.query(USER)
                     .filter_by(id_utilisateur=user_id)
                     .one())
 
@@ -161,7 +161,7 @@ def main(session=session, direction="older"):
                 if res == []:
                     user.fini = True
                     lg.info(
-                        f"History completed for user : {user.nom_utilisateur}")
+                        f"History completed for user : {user.user_name}")
                     session.commit()
                 elif res is None:
                     pass

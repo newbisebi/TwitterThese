@@ -11,7 +11,7 @@ de chacun des utilisateurs du panel
 #Import des modules
 from twython import Twython, TwythonError, TwythonRateLimitError #interface avec Twitter
 from config.config import API
-from utils.models import session, COMPTES, AMIS
+from utils.models import session, USER, AMIS
 from utils.mylog import logger as lg
 
 

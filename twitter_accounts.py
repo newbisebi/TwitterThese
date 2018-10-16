@@ -16,7 +16,7 @@ Le compte Twitter de référence est défini dans le fichier config
 import time
 from twython import TwythonError   # interface avec Twitter
 from config.config import API, TARGET_ACCOUNT
-from utils.models import session, COMPTES
+from utils.models import session, USER
 from utils.mylog import logger as lg
 
 # Détermination de la date actuelle
@@ -63,9 +63,9 @@ def write_account_to_db(user, session):
 
     # Enregistrement dans la base (si pas déjà existant) :
     user_exists = (
-        session.query(COMPTES).filter_by(id_utilisateur=id_utilisateur))
+        session.query(USER).filter_by(id_utilisateur=id_utilisateur))
     if not user_exists.all():   # Si non existant on le créé
-        account = COMPTES(user)
+        account = USER(user)
         session.add(account)
         lg.info(f"committing user {nom_utilisateur} to db")
         session.commit()
