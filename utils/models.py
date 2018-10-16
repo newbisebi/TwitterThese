@@ -5,8 +5,8 @@ Format des tables utilisées dans la base de données
 
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
-from sqlalchemy.orm import relationship, backref, sessionmaker
+from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy.orm import sessionmaker
 import time
 from datetime import datetime
 from config.config import FICHIER_BDD
@@ -74,6 +74,7 @@ class TWEET(Base):
     __tablename__ = 'tweets'
     tweet_id = Column(Integer, primary_key=True)
     user_name = Column(String)
+    user_id = Column(Integer)
     date = Column(DateTime)
     month = Column(String)
     year = Column(String)
@@ -91,16 +92,17 @@ class TWEET(Base):
     mentions = Column(String)
     reply_to = Column(String)
     json = Column(String)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    user = relationship(
-        USER,
-        backref=backref('tweets',
-                        uselist=True,
-                        cascade='delete,all'))
+    # user_id = Column(Integer, ForeignKey('users.user_id'))
+    # user = relationship(
+    #     USER,
+    #     backref=backref('tweets',
+    #                     uselist=True,
+    #                     cascade='delete,all'))
 
-    def __init__(self, status, user):
+    def __init__(self, status):
         self.tweet_id = status["id"]
         self.user_name = status["user"]["screen_name"]
+        self.user_id = status["user"]["id"]
         date = status["created_at"]
         date = datetime.strptime(date, '%a %b %d %H:%M:%S +0000 %Y')
         # date1 = date.strftime('%Y-%m-%d')
@@ -130,7 +132,6 @@ class TWEET(Base):
             self.reply_to = f"{reply_name} ({reply_id})"
         else:
             self.reply_to = ""
-        self.user = user
 
 
 # CONNECTION ET CREATION DES TABLES

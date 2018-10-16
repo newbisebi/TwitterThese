@@ -1,4 +1,4 @@
-from utils.models import COMPTES, Base
+from utils.models import USER, Base
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 import twitter_accounts
@@ -26,18 +26,18 @@ def test_accounts_created(monkeypatch):
     monkeypatch.setattr(config.config.API, 'get_friends_list', mockreturn)
     twitter_accounts.main(session)
 
-    nb_rows = session.query(COMPTES).count()
+    nb_rows = session.query(USER).count()
     assert nb_rows == 5
 
 
 def test_valeurs_champs_utilisateurs():
-    user = session.query(COMPTES).get(4)
-    assert user.nom_utilisateur == "ONGDEFI"
-    assert user.id_utilisateur == 121390266
+    user = session.query(USER).get(121390266)
+    assert user.user_name == "ONGDEFI"
+    assert user.user_id == 121390266
     assert user.description == "DEFI Développer Former Informer est une ONG de développement spécialisée dans l'éducation et la formation.  contact@ongdefi.org"    # noqa
-    assert user.nb_abonnes == 247
-    assert user.nb_tweets == 274
-    assert user.type_compte is None
-    assert user.compte_envir is None
-    assert user.nombre_recherches == 0
-    assert user.fini is False
+    assert user.followers == 247
+    assert user.tweets_count == 274
+    assert user.account_type is None
+    assert user.is_envir is None
+    assert user.queries == 0
+    assert user.is_completed is False

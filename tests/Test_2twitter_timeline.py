@@ -1,4 +1,4 @@
-from utils.models import COMPTES, TL, Base
+from utils.models import USER, TWEET, Base
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 import twitter_timelines
@@ -17,36 +17,36 @@ def test_saving_tweets_to_db():
         res = json.load(f)
 
     twitter_timelines.saving_tweets_to_db(res, 343922907, session)
-    nb_rows = session.query(TL).count()
+    nb_rows = session.query(TWEET).count()
     assert nb_rows == 8
 
 
 def test_valeurs_champs_tweets():
-    tweet = session.query(TL).get(3)
+    tweet = session.query(TWEET).get(1051014633346256897)
     assert tweet.tweet_id == 1051014633346256897
-    assert tweet.auteur == "30millionsdamis"
-    assert tweet.auteur_id == 97185496
-    assert tweet.mois == "10"
-    assert tweet.annee == "2018"
-    assert tweet.texte == "Rendu craintif par son passé, Scott est un super chien ! Portrait d'un rescapé qui ne demande que votre tendresse. ❤️ #adoptionresponsable https://t.co/HkYpy0JZzJ" # noqa
-    assert tweet.texte_retraite == ""
-    assert tweet.retweet is False
+    assert tweet.user_name == "30millionsdamis"
+    assert tweet.user_id == 97185496
+    assert tweet.month == "10"
+    assert tweet.year == "2018"
+    assert tweet.content == "Rendu craintif par son passé, Scott est un super chien ! Portrait d'un rescapé qui ne demande que votre tendresse. ❤️ #adoptionresponsable https://t.co/HkYpy0JZzJ" # noqa
+    assert tweet.clean_text == ""
+    assert tweet.is_retweet is False
     assert tweet.hashtags == "adoptionresponsable"
-    assert tweet.active is True
-    assert tweet.nb_rt is None
-    assert tweet.nb_favori is None
-    assert tweet.date_influence is None
+    assert tweet.is_active is True
+    assert tweet.retweet_count is None
+    assert tweet.fav_count is None
+    assert tweet.influence_date is None
     assert tweet.envir1 is None
     assert tweet.envir2 is None
     assert tweet.envir3 is None
     assert tweet.mentions == ""
-    assert tweet.dest == ""
+    assert tweet.reply_to == ""
 
 
 def test_increment_query_count():
-    user_count_old = session.query(COMPTES).get(2).nombre_recherches
-    twitter_timelines.increment_query_count(session, 44111552)
-    user_count_new = session.query(COMPTES).get(2).nombre_recherches
+    user_count_old = session.query(USER).get(70427900).queries
+    twitter_timelines.increment_query_count(session, 70427900)
+    user_count_new = session.query(USER).get(70427900).queries
     assert user_count_new == user_count_old + 1
 
 
@@ -61,12 +61,12 @@ def test_longueur():
 
 
 def test_liste_utilisateur():
-    users = session.query(COMPTES)
-    for user in users:
-        if user.rowid % 2 == 0:
-            user.fini = True
+    users = session.query(USER)
+    for ix, user in enumerate(users):
+        if (ix + 1) % 2 == 0:
+            user.is_completed = True
         else:
-            user.fini = False
+            user.is_completed = False
     session.commit()
 
     assert (

@@ -38,10 +38,7 @@ def make_query_list(session, direction):
     Constitue la liste des utilisateurs dont on veut collecter
     les tweets en priorité
     """
-    users = session.query(
-        USER.user_id,
-        USER.queries,
-        USER.user_name)
+    users = session.query(USER.user_id)
 
     if direction == "older":
         users = users.filter(USER.is_completed == False) # noqa
@@ -136,7 +133,7 @@ def saving_tweets_to_db(res, user_id, session, test_double=True):
 def increment_query_count(session, user_id):
         # On ajoute 1 au nombre de recherches faites pour cet utilisateur :
         ut = session.query(USER).filter_by(user_id=user_id).one()
-        ut.nombre_recherches += 1
+        ut.queries += 1
         session.commit()
         lg.info(f"Query count incremented for user {user_id}")
 
@@ -149,15 +146,17 @@ def main(session=session, direction="older"):
     # On constitue la liste des utilisateurs à traiter
     liste_ut = make_query_list(session, direction)
     while liste_ut:
+        lg.info("starting loop")
         for user_id in liste_ut:
-            print("\n")
             if direction == "older":    # CASE 1 : looking for older tweets
                 user = (
                     session.query(USER)
-                    .filter_by(id_utilisateur=user_id)
+                    .filter_by(user_id=user_id)
                     .one())
+                print("user collected, lauching collect")
 
                 res = collect_older_tweets(session, user_id)
+                print("res obtained")
                 if res == []:
                     user.fini = True
                     lg.info(

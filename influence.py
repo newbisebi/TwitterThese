@@ -11,7 +11,7 @@ nombre de favoris et de rt évolue dans les jours suivant la diffusion du tweet
 
 # Import des modules
 import time
-from utils.models import session, TL
+from utils.models import session, TWEET
 from config.config import API
 from utils.mylog import logger as lg
 
@@ -35,7 +35,7 @@ def api_query(liste_id):
 
 def main(annee, session=session):
     tweets_to_process = (
-        session.query(TL).filter(TL.nb_rt == None, TL.annee == annee))  # noqa
+        session.query(TWEET).filter(TWEET.retweet_count == None, TWEET.year == annee))  # noqa
     while tweets_to_process.count() > 0:
         lg.info(
             f"""Searching influence (year = {annee}).
@@ -45,14 +45,14 @@ def main(annee, session=session):
         results = api_query(ids)
 
         for tweet in tweets_to_process.all()[0:100]:
-            tweet.nb_favori = results[tweet.tweet_id]["nb_favori"]
-            tweet.nb_rt = results[tweet.tweet_id]["nb_rt"]
-            tweet.date_influence = auj
+            tweet.fav_count = results[tweet.tweet_id]["nb_favori"]
+            tweet.retweet_count = results[tweet.tweet_id]["nb_rt"]
+            tweet.influence_date = auj
 
         session.commit()
         session.close()
         tweets_to_process = (
-            session.query(TL).filter(TL.nb_rt == None, TL.annee == annee))  # noqa
+            session.query(TWEET).filter(TWEET.retweet_count == None, TWEET.year == annee))  # noqa
 
 
 if __name__ == '__main__':

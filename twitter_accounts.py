@@ -63,7 +63,7 @@ def write_account_to_db(user, session):
 
     # Enregistrement dans la base (si pas déjà existant) :
     user_exists = (
-        session.query(USER).filter_by(id_utilisateur=id_utilisateur))
+        session.query(USER).filter_by(user_id=id_utilisateur))
     if not user_exists.all():   # Si non existant on le créé
         account = USER(user)
         session.add(account)
