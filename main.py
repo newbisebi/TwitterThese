@@ -14,6 +14,7 @@ from collecte import influence, twitter_network, twitter_accounts, twitter_timel
 from processtext import tweet_envir, processing
 from utils import stats
 from utils.models import session
+from utils.mylog import logger as lg
 
 
 class MainMenu():
@@ -74,6 +75,7 @@ class CollecteMenu():
         """)
         return collecteChoice
 
+
     def run_collecte(self):
         choice = None
         while not choice:
@@ -88,7 +90,9 @@ class CollecteMenu():
                 twitter_network.main()
                 choice = None
             elif choice == "4":
-                influence.main()
+                lg.info("WARNING : Collecte jusqu'en 2017 uniquement")
+                for annee in range(2006, 2018):
+                    influence.main(annee)
                 choice = None
             elif choice == "8":
                 MainMenu().run_program()

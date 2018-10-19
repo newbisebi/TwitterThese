@@ -34,29 +34,37 @@ def api_query(liste_id):
 
 
 def main(annee, session=session):
-    tweets_to_process = (
+    tweets = (
         session.query(TWEET)
-        .filter(TWEET.retweet_count == None, TWEET.year == annee)   # noqa
-        )
-    while tweets_to_process.count() > 0:
-        lg.info(
-            f"""Searching influence (year = {annee}).
-            Tweets remaining : {tweets_to_process.count()}""")
-        tweet_list = tweets_to_process.all()[0:100]
-        ids = [tweet.tweet_id for tweet in tweet_list]
+        .filter(TWEET.retweet_count == None, TWEET.year == annee)
+        .limit(100)
+    )
+    i = 0
+    while tweets.first():
+        i += 1
+        lg.info(f"Loop number {i} - Année : {annee}")
+        ids = [tweet.tweet_id for tweet in tweets]
         results = api_query(ids)
-
-        for tweet in tweets_to_process.all()[0:100]:
+        for tweet in tweets:
             tweet.fav_count = results[tweet.tweet_id]["nb_favori"]
             tweet.retweet_count = results[tweet.tweet_id]["nb_rt"]
             tweet.influence_date = auj
-
         session.commit()
         session.close()
-        tweets_to_process = (
-        session.query(TWEET)
-        .filter(TWEET.retweet_count == None, TWEET.year == annee)   # noqa
+
+        tweets = (
+            session.query(TWEET)
+                .filter(TWEET.retweet_count == None, TWEET.year == annee)
+                .limit(100)
         )
+        if i % 100 == 0:
+            count = (
+                session.query(TWEET)
+                .filter(TWEET.retweet_count == None, TWEET.year == annee)
+                .count()
+            )
+            print(f"Nombre restant pour l'année {annee} : {count}")
+
 
 
 if __name__ == '__main__':
