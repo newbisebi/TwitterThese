@@ -5,7 +5,7 @@ from string import punctuation
 # On veut garder certains caractères de ponctuation
 punctuation = [p for p in punctuation if p not in "!?$#%&+-"]
 
-par = "text_processing_tools/french-utf8.par"
+par = "utils/french-utf8.par"
 tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr', TAGPARFILE=par)
 exclude_type = [
     "ADV", "DET:ART", "DET:POS", "KON", "NUM", "PRO", "PRO:DEM",

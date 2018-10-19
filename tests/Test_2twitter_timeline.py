@@ -1,7 +1,7 @@
 from utils.models import USER, TWEET, Base
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-import twitter_timelines
+from collecte import twitter_timelines
 import json
 from config.config import FICHIER_BDD_TEST
 
@@ -52,8 +52,8 @@ def test_increment_query_count():
 
 def test_get_oldest_and_newest_tweet():
     assert (
-        twitter_timelines.get_oldest_and_newest_tweet(session, 97185496) ==
-        (1050724537501929472-1, 1051446416634195968+1))
+            twitter_timelines.get_oldest_and_newest_tweet(session, 97185496) ==
+            (1050724537501929472-1, 1051446416634195968+1))
 
 
 def test_longueur():

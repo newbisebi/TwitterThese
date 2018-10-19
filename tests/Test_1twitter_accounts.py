@@ -1,7 +1,7 @@
 from utils.models import USER, Base
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-import twitter_accounts
+from collecte import twitter_accounts
 import json
 import config
 from config.config import FICHIER_BDD_TEST

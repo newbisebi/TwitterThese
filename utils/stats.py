@@ -31,6 +31,11 @@ def print_bdd_size():
     print(f"Taille du fichier de données : {round(size, 2)} {unite}")
 
 
+def main():
+    print_bdd_size()
+    print_stats()
+
+
 if __name__ == '__main__':
     print_bdd_size()
     print_stats()

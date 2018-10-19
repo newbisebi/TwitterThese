@@ -5,15 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d559ec7-1e5b-4df1-a3c1-e537590ac0a6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MIGRATION.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/influence.py" beforeDir="false" afterPath="$PROJECT_DIR$/influence.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analyse/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collecte/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/processtext/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/influence.py" beforeDir="false" afterPath="$PROJECT_DIR$/collecte/influence.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/processing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/coherence.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/coherence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tweet_envir.py" beforeDir="false" afterPath="$PROJECT_DIR$/tweet_envir.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/twitter_timelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/twitter_timelines.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/processtext/processing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Test_1twitter_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Test_1twitter_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Test_2twitter_timeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Test_2twitter_timeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Test_3twitter_influence.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Test_3twitter_influence.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_processing_tools/french-utf8.par" beforeDir="false" afterPath="$PROJECT_DIR$/utils/french-utf8.par" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tweet_envir.py" beforeDir="false" afterPath="$PROJECT_DIR$/processtext/tweet_envir.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twitter_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/collecte/twitter_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twitter_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/collecte/twitter_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twitter_timelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/collecte/twitter_timelines.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/text_processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/text_processing.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,48 +41,63 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="12" />
+          <entry key="py" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="12" />
+          <entry key="Python" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="109" />
-          <entry key="py" value="367" />
+          <entry key="py" value="2309" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="476" />
+          <entry key="Python" value="2418" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/influence.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
-              <caret line="46" column="32" lean-forward="true" selection-start-line="46" selection-start-column="32" selection-end-line="46" selection-end-column="32" />
+            <state relative-caret-position="714">
+              <caret line="129" column="16" selection-start-line="129" selection-start-column="16" selection-end-line="129" selection-end-column="16" />
+              <folding>
+                <element signature="e#287#297#0" expanded="true" />
+                <marker date="1539936215104" expanded="true" signature="4148:4176" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/stats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="29" column="17" selection-start-line="28" selection-start-column="16" selection-end-line="29" selection-end-column="17" />
+            <state relative-caret-position="595">
+              <caret line="35" column="17" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+                <marker date="1539935878858" expanded="true" signature="816:858" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -87,6 +110,8 @@
         <option value="$PROJECT_DIR$/processing.py" />
         <option value="$PROJECT_DIR$/tests/coherence.py" />
         <option value="$PROJECT_DIR$/influence.py" />
+        <option value="$PROJECT_DIR$/utils/text_processing.py" />
+        <option value="$PROJECT_DIR$/utils/stats.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -118,7 +143,12 @@
             <path>
               <item name="Programme" type="b2602c69:ProjectViewProjectNode" />
               <item name="Programme" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="processtext" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Programme" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Programme" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -130,6 +160,14 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Universite\4_These\5_Terrain\Mixte_Twitter\Programme\utils" />
+      <recent name="D:\Universite\4_These\5_Terrain\Mixte_Twitter\Programme\processtext" />
+      <recent name="D:\Universite\4_These\5_Terrain\Mixte_Twitter\Programme\textprocess" />
+      <recent name="D:\Universite\4_These\5_Terrain\Mixte_Twitter\Programme\collecte" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -143,7 +181,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.influence">
+  <component name="RunManager" selected="Python.main">
     <configuration name="influence" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Programme" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -156,7 +194,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/influence.py" />
+      <option name="SCRIPT_NAME" value="D:\Universite\4_These\5_Terrain\Mixte_Twitter\Programme\collecte\influence.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -165,7 +203,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="processing" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Programme" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -177,7 +215,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/processing.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -186,7 +224,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tweet_envir" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="stats" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Programme" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -198,7 +236,49 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tweet_envir.py" />
+      <option name="SCRIPT_NAME" value="D:\Universite\4_These\5_Terrain\Mixte_Twitter\Programme\utils\stats.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="twitter_accounts (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Programme" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\Universite\4_These\5_Terrain\Mixte_Twitter\Programme\collecte\twitter_accounts.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="twitter_accounts" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Programme" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/collecte" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/collecte/twitter_accounts.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -208,15 +288,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.tweet_envir" />
-      <item itemvalue="Python.processing" />
       <item itemvalue="Python.influence" />
+      <item itemvalue="Python.twitter_accounts" />
+      <item itemvalue="Python.twitter_accounts (1)" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.stats" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.stats" />
+        <item itemvalue="Python.twitter_accounts" />
+        <item itemvalue="Python.twitter_accounts (1)" />
         <item itemvalue="Python.influence" />
-        <item itemvalue="Python.processing" />
-        <item itemvalue="Python.tweet_envir" />
       </list>
     </recent_temporary>
   </component>
@@ -246,12 +330,12 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15208334" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15208334" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.32925472" />
       <window_info anchor="bottom" id="Inspection Results" order="1" weight="0.32925472" />
-      <window_info anchor="bottom" id="Terminal" order="2" weight="0.3193096" />
+      <window_info anchor="bottom" x="-8" y="-8" width="1936" height="1056" id="Terminal" order="2" type="FLOATING" weight="0.32924107" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" />
@@ -262,7 +346,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Run" order="3" weight="0.31927082" />
+      <window_info active="true" anchor="right" id="Run" order="3" visible="true" weight="0.34427083" />
       <window_info anchor="right" id="Python Console" order="4" weight="0.32886267" />
     </layout>
   </component>
@@ -284,24 +368,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/twitter_timelines.py">
+    <entry file="file://$PROJECT_DIR$/collecte/twitter_timelines.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="384">
           <caret line="143" column="50" selection-start-line="143" selection-start-column="50" selection-end-line="143" selection-end-column="50" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tweet_envir.py">
+    <entry file="file://$PROJECT_DIR$/processtext/tweet_envir.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/processing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
         </state>
       </provider>
     </entry>
@@ -312,17 +389,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/influence.py">
+    <entry file="file://$PROJECT_DIR$/collecte/influence.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="46" column="32" lean-forward="true" selection-start-line="46" selection-start-column="32" selection-end-line="46" selection-end-column="32" />
+        <state relative-caret-position="731">
+          <caret line="46" column="32" selection-start-line="46" selection-start-column="32" selection-end-line="46" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/config.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+          <folding>
+            <element signature="e#85#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/collecte/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/processtext/processing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/text_processing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/stats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="17" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <marker date="1539935878858" expanded="true" signature="816:858" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="29" column="17" selection-start-line="28" selection-start-column="16" selection-end-line="29" selection-end-column="17" />
+        <state relative-caret-position="714">
+          <caret line="129" column="16" selection-start-line="129" selection-start-column="16" selection-end-line="129" selection-end-column="16" />
+          <folding>
+            <element signature="e#287#297#0" expanded="true" />
+            <marker date="1539936215104" expanded="true" signature="4148:4176" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

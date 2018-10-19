@@ -1,7 +1,7 @@
 from utils.models import TWEET, Base
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-import influence
+from collecte import influence
 import json
 import config
 from config.config import FICHIER_BDD_TEST
