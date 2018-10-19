@@ -22,6 +22,7 @@ from utils.models import session, USER, TWEET
 from config.config import API
 from utils.mylog import logger as lg
 
+
 # Détermination de la date actuelle
 auj = time.strftime('%y_%m_%d', time.localtime())
 
@@ -41,9 +42,10 @@ def make_query_list(session, direction):
     users = session.query(USER.user_id)
 
     if direction == "older":
-        users = users.filter(USER.is_completed == False) # noqa
+        users = users.filter(USER.is_completed == False)    # noqa
     lg.info(f"Number of users in list : {users.count()}")
     liste_ut = [user.user_id for user in users.all()]
+    print("LONGUEUR : ", len(liste_ut))
     return liste_ut
 
 
@@ -107,27 +109,22 @@ def collect_older_tweets(session, user_id):
     return res
 
 
-def saving_tweets_to_db(res, user_id, session, test_double=True):
+def saving_tweets_to_db(res, user_id, session):
     """
     Store tweet to database.
     test_double ==> test if tweet already in db. Takes longer, but safer...
     """
     for tw in res:
-        auteur = tw["user"]["screen_name"]
-        if test_double:
-            tweet_exists = (
-                session.query(TWEET)
-                .filter(TWEET.tweet_id == tw['id'])
-                .first())
-            if not tweet_exists:
-                enr_tl = TWEET(tw)
-                session.add(enr_tl)
-        else:
+        tweet_exists = (
+                    session.query(TWEET)
+                    .filter(TWEET.tweet_id == tw['id'])
+                    .first())
+        if not tweet_exists:
             enr_tl = TWEET(tw)
             session.add(enr_tl)
-    session.commit()
-    session.close()
-    lg.info(f"Tweets for user {auteur} - {user_id} committed to database")
+        session.commit()
+        session.close()
+        lg.info(f"Tweets for user {user_id} committed to database")
 
 
 def increment_query_count(session, user_id):
@@ -146,31 +143,28 @@ def main(session=session, direction="older"):
     # On constitue la liste des utilisateurs à traiter
     liste_ut = make_query_list(session, direction)
     while liste_ut:
-        lg.info("starting loop")
         for user_id in liste_ut:
             if direction == "older":    # CASE 1 : looking for older tweets
                 user = (
                     session.query(USER)
                     .filter_by(user_id=user_id)
                     .one())
-                print("user collected, lauching collect")
 
                 res = collect_older_tweets(session, user_id)
-                print("res obtained")
-                if res == []:
-                    user.fini = True
+                if not res:
+                    user.is_completed = True
                     lg.info(
                         f"History completed for user : {user.user_name}")
                     session.commit()
                 elif res is None:
                     pass
                 else:
-                    saving_tweets_to_db(res, user_id, session, False)
+                    saving_tweets_to_db(res, user_id, session)
 
             elif direction == "newer":
                 # CASE 2 : looking for newer tweets
                 res = collect_newer_tweets(session, user_id)
-                saving_tweets_to_db(res, user_id, session, True)
+                saving_tweets_to_db(res, user_id, session)
 
             else:
                 lg.warning(

@@ -9,12 +9,13 @@ Regroupe les différentes opérations effectués dans le cadre de l'étude
 - Collecte des informations complémentaires
 - Retraitement du texte
 """
+import twitter_accounts     # noqa
+import twitter_timelines    # noqa
+import twitter_network      # noqa
+import influence            # noqa
+import processing           # noqa
+import tweet_envir          # noqa
 from utils.models import session
-import twitter_accounts # noqa
-import twitter_timelines
-import influence
-import processing
-import tweet_envir
 
 """
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -30,7 +31,8 @@ import tweet_envir
 
 # ETAPE 3 : COLLECTE DES INFORAMTIONS COMPLEMENTAIRES (nombre de RT et favoris)
 for annee in range(2006, 2018):
-    influence.main(annee)
+    print(annee)
+    influence.main(annee, session=session)
 
 """
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -42,6 +44,8 @@ for annee in range(2006, 2018):
 processing.main()   # lemmatisation etc.
 tweet_envir.main()  # Détermination du caractère environnemental
 
+# ETAPE 5 : CONSTITUTION DU RESEAU D'UTILISATEURS
+twitter_network.main()
 
 """
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -5,8 +5,8 @@ Format des tables utilisées dans la base de données
 
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy.orm import sessionmaker
 import time
 from datetime import datetime
 from config.config import FICHIER_BDD
@@ -128,20 +128,24 @@ class TWEET(Base):
             self.reply_to = ""
 
 
-class FRIENDSHIP(Base):
-    __tablename__ = 'friendships'
-    rowid = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    friend_id = Column(Integer, ForeignKey('users.user_id'))
-    user = relationship("USER", foreign_keys=[user_id])
-    friend = relationship("USER", foreign_keys=[friend_id])
+"""
+Foreigny rallonge trop les traitements ==> à suprimer
+"""
+class FRIENDSHIP():
+    pass
+#     __tablename__ = 'friendships'
+#     rowid = Column(Integer, primary_key=True)
+#     user_id = Column(Integer, ForeignKey('users.user_id'))
+#     friend_id = Column(Integer, ForeignKey('users.user_id'))
+#     user = relationship("USER", foreign_keys=[user_id])
+#     friend = relationship("USER", foreign_keys=[friend_id])
 
-    def __init__(self, user, friend):
-        self.user = user
-        self.friend = friend
+#     def __init__(self, user, friend):
+#         self.user = user
+#         self.friend = friend
 
-    def __repr__(self):
-        return f"{self.user} is following {self.friend}"
+#     def __repr__(self):
+#         return f"{self.user} is following {self.friend}"
 
 
 # CONNECTION ET CREATION DES TABLES

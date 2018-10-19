@@ -32,20 +32,21 @@ def envir_criteria_2(hashtags):
 
 
 def main():
-    tweets_to_process = session.query(TWEET).filter(TWEET.envir3 == None) # noqa
-    while tweets_to_process.count() > 0:
-        lg.info(
-            f"""Environmental character determination :
-            {tweets_to_process.count()} tweets remaining""")
-        for tweet in tweets_to_process.all()[0:1000]:
+    tweets_to_process = session.query(TWEET).filter(TWEET.envir3 == None)   # noqa
+    lg.info(
+        f"""Environmental character determination :
+        {tweets_to_process.count()} tweets remaining""")
+    while tweets_to_process.count() != 0:
+        for tweet in tweets_to_process[0:1000]:
             tweet.envir1 = envir_criteria_1(tweet.content)
             tweet.envir2 = envir_criteria_2(tweet.hashtags)
             tweet.envir3 = bool(tweet.envir1 + tweet.envir2)
-
         session.commit()
-        lg.info("Committing environmental character to db")
+        tweets_to_process = session.query(TWEET).filter(TWEET.envir3 == None)  # noqa
+        lg.info(
+            f"""Environmental character determination :
+            {tweets_to_process.count()} tweets remaining""")
         session.close()
-        tweets_to_process = session.query(TWEET).filter(TWEET.envir3 == None)    # noqa
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ def api_query(liste_id):
 
 def main(annee, session=session):
     tweets_to_process = (
-        session.query(TWEET).filter(TWEET.retweet_count == None, TWEET.year == annee))  # noqa
+        session.query(TWEET)
+        .filter(TWEET.retweet_count == None, TWEET.year == annee)   # noqa
+        )
     while tweets_to_process.count() > 0:
         lg.info(
             f"""Searching influence (year = {annee}).
@@ -52,7 +54,9 @@ def main(annee, session=session):
         session.commit()
         session.close()
         tweets_to_process = (
-            session.query(TWEET).filter(TWEET.retweet_count == None, TWEET.year == annee))  # noqa
+        session.query(TWEET)
+        .filter(TWEET.retweet_count == None, TWEET.year == annee)   # noqa
+        )
 
 
 if __name__ == '__main__':

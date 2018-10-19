@@ -21,16 +21,14 @@ auj = time.strftime('%y_%m_%d', time.localtime())
 
 def main():
     tweets_to_process = session.query(TWEET).filter(TWEET.clean_text == "")
-    lg.info(f"Tweet to process : {tweets_to_process.count()}")
-    while tweets_to_process.count() > 0:
-        lg.info(
-                f"Tweet remaining to process : {tweets_to_process.count()}")
-        for tweet in tweets_to_process.all()[0:1000]:
-            tweet.clean_text = processing(tweet.texte)
+    lg.info(f"{tweets_to_process.count()} tweets à traiter")
+    while tweets_to_process.count() != 0:
+        for tweet in tweets_to_process[0:1000]:
+            tweet.clean_text = processing(tweet.content)
+        session.commit()
+        lg.info(f"Text processing : {tweets_to_process.count()} tweets restant")
         session.commit()
         session.close()
-        tweets_to_process = (
-                session.query(TWEET).filter(TWEET.clean_text == ""))
 
 
 if __name__ == '__main__':
