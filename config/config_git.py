@@ -21,3 +21,4 @@ FICHIER_BDD = os.path.join('sqlite:///', BDD_DIR, BDD_FILE)
 FICHIER_BDD_TEST = os.path.join('sqlite:///', BDD_DIR, 'data_test.sqlite')
 
 TARGET_ACCOUNT = "RechercheESS"
+TAGDIR = ""  # location of treetagger bin

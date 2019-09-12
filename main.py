@@ -12,6 +12,7 @@ Regroupe les différentes opérations effectués dans le cadre de l'étude
 """
 import sys
 from collecte import influence, twitter_network, twitter_accounts, twitter_timelines
+from config.config import *
 from processtext import tweet_envir, processing
 from utils import stats
 from utils.models import session
@@ -26,7 +27,7 @@ class MainMenu:
         *** MENU PRINCIPAL ***
         --------------------------
         1 - Collecter des données
-        2 - Retraiter les données 
+        2 - Retraiter les données
         3 - Analyser des données
         4 - Afficher les infos de la BDD
         --------------------------
@@ -147,7 +148,7 @@ class AnalysisMenu:
         *** TRAITEMENT DES DONNEES ***
         --------------------------
         1 - Hashtags les plus fréquents
-        2 - 
+        2 -
         --------------------------
         8 - Retour au Menu Principal
         9 - Quitter le programme

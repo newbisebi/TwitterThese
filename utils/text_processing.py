@@ -2,13 +2,13 @@ import os
 import treetaggerwrapper
 from nltk.tokenize import word_tokenize
 from string import punctuation
-from config.config import TAG_PAR_FILE
+from config.config import TAG_PAR_FILE, TAGDIR
 
 # On veut garder certains caractères de ponctuation
 punctuation = [p for p in punctuation if p not in "!?$#%&+-"]
 
 
-tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr', TAGPARFILE=TAG_PAR_FILE)
+tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr', TAGPARFILE=TAG_PAR_FILE, TAGDIR=TAGDIR)
 exclude_type = [
     "ADV", "DET:ART", "DET:POS", "KON", "NUM", "PRO", "PRO:DEM",
     "SENT", "PRO:IND", "PRO:PER", "PRO:POS", "PRO:REL", "PRP",
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     # processing(""" Courir dimanche ? Oui au #Trail du four à chaux à #Nandy ! https://t.co/WFOlDph4R3 #scleroseenplaques @LaRep77… https://t.co/8I5yqDk3Tj """)
     # processing(""" [Chiffres-Clé du jour] 2 270 000 m3 de capacité de stockage d'eau recyclée, 12,5 km de canalisations et 4 000 hecta… https://t.co/M2zHNVwpNs """)
     # processing(""" "ACC
-    # @assocoeurcouleur    
+    # @assocoeurcouleur
     # #lavoixdesrares
 
     # Plateforme d'expertise Maladies Rares Paris-Sud

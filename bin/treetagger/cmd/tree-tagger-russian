@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Set these paths appropriately
+
+BIN="/mnt/DATA/Universite/4_These/5_Terrain/Mixte_Twitter/Programme/bin/bin"
+CMD="/mnt/DATA/Universite/4_These/5_Terrain/Mixte_Twitter/Programme/bin/cmd"
+LIB="/mnt/DATA/Universite/4_These/5_Terrain/Mixte_Twitter/Programme/bin/lib"
+
+OPTIONS="-token -lemma -sgml"
+
+TOKENIZER=${CMD}/utf8-tokenize.perl
+TAGGER=${BIN}/tree-tagger
+PARFILE=${LIB}/russian.par
+
+# do tokenization
+$TOKENIZER $* |
+$TAGGER $OPTIONS $PARFILE
