@@ -128,9 +128,7 @@ class TWEET(Base):
             self.reply_to = ""
 
 
-"""
-Foreigny rallonge trop les traitements ==> à suprimer
-"""
+# TODO: Foreigny rallonge trop les traitements ==> à suprimer
 class FRIENDSHIP:
     pass
 #     __tablename__ = 'friendships'

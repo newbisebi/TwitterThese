@@ -42,7 +42,7 @@ def make_query_list(session, direction):
     users = session.query(USER.user_id)
 
     if direction == "older":
-        users = users.filter(USER.is_completed == False)    # noqa
+        users = users.filter(USER.is_completed == False).order_by(USER.queries)    # noqa
     lg.info(f"Number of users in list : {users.count()}")
     liste_ut = [user.user_id for user in users.all()]
     print("LONGUEUR : ", len(liste_ut))
