@@ -8,9 +8,21 @@ from utils.decorateurs import timeur
 def print_stats():
     nb_tweets = session.query(TWEET).count()
     nb_comptes = (session.query(USER).count())
+    nb_tweets_envir = (
+        session.query(TWEET)
+        .filter(TWEET.envir3 == True)
+        .count()
+    )
+    nb_comptes_envir = (
+        session.query(USER)
+        .filter(USER.is_envir == True)
+        .count()
+    )
 
     print(f"Nombre de tweets : {nb_tweets}")
+    print(f"Nombre de tweets environnementaux : {nb_tweets_envir}")
     print(f"Nombre de comptes d'utilisateurs : {nb_comptes}")
+    print(f"Nombre de comptes environnementaux : {nb_comptes_envir}")
 
 
 def print_bdd_size():

@@ -1,6 +1,7 @@
 
 # ###### RENAME FILE "config.py" ###########
 
+import os
 from twython import Twython
 
 # FILL WITH YOUR TWITTER AUTH DETAILS
@@ -10,10 +11,13 @@ API = Twython(
     oauth_token='XXXX',
     oauth_token_secret='XXXX')
 
-BDD_DIR = 'data/'
-BDD_FILE = 'data.sqlite'
-FICHIER_BDD = 'sqlite:///' + BDD_DIR + BDD_FILE
+current_dir = os.path.dirname(os.path.realpath(__file__))
+PROJECT_DIR = os.path.dirname(current_dir)
 
-FICHIER_BDD_TEST = 'sqlite:///data_test.sqlite'
+BDD_DIR = os.path.join(PROJECT_DIR, 'data')
+BDD_FILE = 'tweets.sqlite'
+FICHIER_BDD = os.path.join('sqlite:///', BDD_DIR, BDD_FILE)
 
-TARGET_ACCOUNT = ""
+FICHIER_BDD_TEST = os.path.join('sqlite:///', BDD_DIR, 'data_test.sqlite')
+
+TARGET_ACCOUNT = "RechercheESS"

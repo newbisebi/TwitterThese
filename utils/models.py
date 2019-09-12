@@ -131,7 +131,7 @@ class TWEET(Base):
 """
 Foreigny rallonge trop les traitements ==> à suprimer
 """
-class FRIENDSHIP():
+class FRIENDSHIP:
     pass
 #     __tablename__ = 'friendships'
 #     rowid = Column(Integer, primary_key=True)

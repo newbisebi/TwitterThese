@@ -1,12 +1,14 @@
+import os
 import treetaggerwrapper
 from nltk.tokenize import word_tokenize
 from string import punctuation
+from config.config import TAG_PAR_FILE
 
 # On veut garder certains caractères de ponctuation
 punctuation = [p for p in punctuation if p not in "!?$#%&+-"]
 
-par = "utils/french-utf8.par"
-tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr', TAGPARFILE=par)
+
+tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr', TAGPARFILE=TAG_PAR_FILE)
 exclude_type = [
     "ADV", "DET:ART", "DET:POS", "KON", "NUM", "PRO", "PRO:DEM",
     "SENT", "PRO:IND", "PRO:PER", "PRO:POS", "PRO:REL", "PRP",
@@ -40,7 +42,7 @@ def processing(text, return_token=False):
 def format_sentence(sent):
     """Format data for classification"""
     sent = processing(sent)
-    return ({word: True for word in word_tokenize(sent)})
+    return {word: True for word in word_tokenize(sent)}
 
 
 if __name__ == '__main__':

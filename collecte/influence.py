@@ -63,8 +63,8 @@ def main(annee, session=session):
                 .filter(TWEET.retweet_count == None, TWEET.year == annee)
                 .count()
             )
-            print(f"Nombre restant pour l'année {annee} : {count}")
-
+            lg.info(f"Nombre restant pour l'année {annee} : {count}")
+        lg.info("Collecte influence terminée pour l'année {annee} ")
 
 
 if __name__ == '__main__':

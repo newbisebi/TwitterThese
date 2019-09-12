@@ -8,6 +8,7 @@ Regroupe les différentes opérations effectués dans le cadre de l'étude
 - Collecte des tweets
 - Collecte des informations complémentaires
 - Retraitement du texte
+- Analyses statistiques
 """
 import sys
 from collecte import influence, twitter_network, twitter_accounts, twitter_timelines
@@ -15,9 +16,10 @@ from processtext import tweet_envir, processing
 from utils import stats
 from utils.models import session
 from utils.mylog import logger as lg
+from analyse import hashtag_frequency
 
 
-class MainMenu():
+class MainMenu:
     def get_choice(self):
         mainChoice = input("""
         --------------------------
@@ -42,9 +44,10 @@ class MainMenu():
                 CollecteMenu().run_collecte()
                 choice = None
             elif choice == "2":
-                ProcessMenu().run_collecte()
+                ProcessMenu().run_processing()
                 choice = None
             elif choice == "3":
+                AnalysisMenu().run_analysis()
                 choice = None
             elif choice == "4":
                 stats.main()
@@ -56,7 +59,7 @@ class MainMenu():
                 print("Veuillez choisir une option valide")
 
 
-class CollecteMenu():
+class CollecteMenu:
     def get_choice(self):
         collecteChoice = input("""
         --------------------------
@@ -90,8 +93,8 @@ class CollecteMenu():
                 twitter_network.main()
                 choice = None
             elif choice == "4":
-                lg.info("WARNING : Collecte jusqu'en 2017 uniquement")
-                for annee in range(2006, 2018):
+                lg.info("WARNING : Collecte jusqu'en 2018 uniquement")
+                for annee in range(2006, 2019):
                     influence.main(annee)
                 choice = None
             elif choice == "8":
@@ -103,9 +106,9 @@ class CollecteMenu():
                 print("Veuillez choisir une option valide")
 
 
-class ProcessMenu():
+class ProcessMenu:
     def get_choice(self):
-        collecteChoice = input("""
+        collecte_choice = input("""
         --------------------------
         *** TRAITEMENT DES DONNEES ***
         --------------------------
@@ -118,9 +121,9 @@ class ProcessMenu():
         Entrez l'option souhaitée...
         --------------------------
         """)
-        return collecteChoice
+        return collecte_choice
 
-    def run_collecte(self):
+    def run_processing(self):
         choice = None
         while not choice:
             choice = self.get_choice()
@@ -137,41 +140,44 @@ class ProcessMenu():
                 print("Veuillez choisir une option valide")
 
 
+class AnalysisMenu:
+    def get_choice(self):
+        collecte_choice = input("""
+        --------------------------
+        *** TRAITEMENT DES DONNEES ***
+        --------------------------
+        1 - Hashtags les plus fréquents
+        2 - 
+        --------------------------
+        8 - Retour au Menu Principal
+        9 - Quitter le programme
+        --------------------------
+        Entrez l'option souhaitée...
+        --------------------------
+        """)
+        return collecte_choice
+
+    def run_analysis(self):
+        choice = None
+        while not choice:
+            choice = self.get_choice()
+            if choice == "1":
+                number = input("Nombre maximum de hashtags à exporter ?")
+                try:
+                    number = int(number)
+                except:
+                    number = 1000
+                hashtag_frequency.common_hashtags(True, number)
+            elif choice == "2":
+                pass
+            elif choice == "8":
+                MainMenu().run_program()
+            elif choice == "9":
+                sys.exit("Programme terminé")
+            else:
+                choice = None
+                print("Veuillez choisir une option valide")
+
+
 
 MainMenu().run_program()
-
-"""
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
->>>>>>>>>>>>>>>>> COLLECTE DES DONNEES<<<<<<<<<<<<<<<<<<<<<<<<
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-"""
-
-# # ETAPE 1 : CREATION DE lA LISTE DES UTILISATEURS
-# twitter_accounts.main()
-
-# # ETAPE 2 : COLLECTE DES TWEETS DES UTILISATEURS
-# twitter_timelines.main(session=session, direction="older")
-
-# # ETAPE 3 : COLLECTE DES INFORAMTIONS COMPLEMENTAIRES (nombre de RT et favoris)
-# for annee in range(2006, 2018):
-#     print(annee)
-#     influence.main(annee, session=session)
-
-"""
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
->>>>>>>>>>>>>>>>> RETRAITEMENT DES DONNEES<<<<<<<<<<<<<<<<<<<<
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-"""
-
-# # # ETAPE4 : RETRAITEMENT DU TEXTE
-# processing.main()   # lemmatisation etc.
-# tweet_envir.main()  # Détermination du caractère environnemental
-
-# # ETAPE 5 : CONSTITUTION DU RESEAU D'UTILISATEURS
-# twitter_network.main()
-
-"""
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
->>>>>>>>>>>>>>>>> ANALYSE DES DONNEES<<<<<<<<<<<<<<<<<<<<<<<<
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-"""

@@ -11,6 +11,11 @@ Ce script a pour but de déterminer si un tweet concerne l'environnement
 from utils.models import session, TWEET
 from utils.mylog import logger as lg
 
+hashtags_envir = []
+with open("inputs/hashtags_envir", encoding="utf-8") as f:
+    for ht in f.readlines():
+        hashtags_envir.append(ht.strip())
+
 
 def envir_criteria_1(texte):
     criteria = False
@@ -23,11 +28,10 @@ def envir_criteria_1(texte):
 
 def envir_criteria_2(hashtags):
     criteria = False
-    with open("inputs/hashtags_envir") as f:
-        for ht in f.readlines():
-            if ht in hashtags.lower().split(', '):
-                criteria = True
-                break
+    for ht in hashtags_envir:
+        if ht in hashtags.lower().split(', '):
+            criteria = True
+            break
     return criteria
 
 
