@@ -12,7 +12,6 @@ Regroupe les différentes opérations effectués dans le cadre de l'étude
 """
 import sys
 from collecte import influence, twitter_network, twitter_accounts, twitter_timelines
-from config.config import *
 from processtext import tweet_envir, processing
 from utils import stats
 from utils.models import session
